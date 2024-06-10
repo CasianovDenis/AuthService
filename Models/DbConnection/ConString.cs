@@ -24,8 +24,8 @@ namespace Myproject.Models.DBConnection
                  new Dictionary { Id=1, Code="SUCCES",Description = "Succes"},
                  new Dictionary { Id=2, Code="TECHNICAL_ERROR",Description = "Something wrong"},
                 new Dictionary {  Id=3, Code="USER_ALREADY_EXIST",Description = "Username already in use, choser another"},
-                new Dictionary {  Id=3, Code="NO_RECORD",Description = "No Data"},
-                new Dictionary {  Id=3, Code="USER_NOT_EXIST",Description = "User not found"},
+                new Dictionary {  Id=4, Code="NO_RECORD",Description = "No Data"},
+                new Dictionary {  Id=5, Code="USER_NOT_EXIST",Description = "User not found"},
 
              });
 

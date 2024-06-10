@@ -15,7 +15,7 @@ namespace Myproject.Model.Repository
             Id = @in.Id;
             Code = @in.Code;
             Description = @in.Description;
-            Type = @in.Type;
+            //Type = @in.Type;
         }
         public DictionaryModel() { }
     }

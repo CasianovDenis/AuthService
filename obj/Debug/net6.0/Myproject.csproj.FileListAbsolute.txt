@@ -71,3 +71,4 @@ D:\My Document\LiceuAPI-master\obj\Debug\net6.0\Myproject.pdb
 D:\My Document\LiceuAPI-master\obj\Debug\net6.0\Myproject.genruntimeconfig.cache
 D:\My Document\LiceuAPI-master\obj\Debug\net6.0\ref\Myproject.dll
 D:\My Document\LiceuAPI-master\obj\Debug\net6.0\Myproject.csproj.Up2Date
+D:\My Document\LiceuAPI-master\obj\Debug\net6.0\Myproject.sourcelink.json
