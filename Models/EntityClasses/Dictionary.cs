@@ -11,6 +11,6 @@ namespace Myproject.Models.EntityClasses
         [Required]
         public string Code { get; set; }
         public string Description { get; set; }
-        public Guid Type { get; set; }
+        public Guid? Type { get; set; }
     }
 }

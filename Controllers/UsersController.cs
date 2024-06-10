@@ -19,28 +19,13 @@ namespace Myproject.Controllers
 
     public class UsersController : PPController
     {
-        public delegate void MyDelegate(string msg); //declaring a delegate
-
         private readonly ConString _conString;
         private readonly IConfiguration _configuration;
-
-        // private bool st1 { get { return ValidateToken(); } }
-
-        [Base]
-        private void ValidateToken()
-        {
-            var s = _conString.Users.Select(data => data).Where(x => x.Id == UserContextId && x.RefreshToken != null).FirstOrDefault();
-            /*if (s != null)
-                return false;
-            else
-                return true;*/
-        }
 
         public UsersController(ConString conection, IConfiguration configuration)
         {
             _conString = conection;
             _configuration = configuration;
-            //MyDelegate del = new UsersController(conection, configuration).ValidateToken;
         }
 
         [Route("create_account")]
@@ -85,7 +70,6 @@ namespace Myproject.Controllers
 
         [Route("get_profile_info")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        //[AttributeUsage(AttributeTargets.Class,AllowMultiple =true)]
         [HttpGet]
         public IActionResult GetProfileInfo()
         {
@@ -172,7 +156,6 @@ namespace Myproject.Controllers
 
         [Route("close_account")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        //[Base.Services.HttpTrace]
         [HttpDelete]
         public IActionResult CloseAccount()
         {
