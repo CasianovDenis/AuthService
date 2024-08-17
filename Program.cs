@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Myproject.Base.Services.HttpTrace;
 using Myproject.Models.DBConnection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +10,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddHttpClient(HttpTrace);
 
 //PostgreSQL path
 builder.Services.AddDbContext<ConString>(options => options.UseNpgsql
@@ -60,6 +58,12 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
+/*using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ConString>();
+     app.RunAsync(dbContext).Wait();
+
+}*/
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

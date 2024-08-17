@@ -6514,11 +6514,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My Document\\LiceuAPI-master\\Myproject.csproj",
+      "projectUniqueName": "E:\\Project\\DockerApp\\Myproject.csproj",
       "projectName": "Myproject",
-      "projectPath": "D:\\My Document\\LiceuAPI-master\\Myproject.csproj",
+      "projectPath": "E:\\Project\\DockerApp\\Myproject.csproj",
       "packagesPath": "C:\\Users\\S.Holmes\\.nuget\\packages\\",
-      "outputPath": "D:\\My Document\\LiceuAPI-master\\obj\\",
+      "outputPath": "E:\\Project\\DockerApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\S.Holmes\\AppData\\Roaming\\NuGet\\NuGet.Config"

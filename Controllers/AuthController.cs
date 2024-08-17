@@ -11,28 +11,20 @@ using Myproject.Services;
 using Myproject.Repository;
 using Myproject.Model.Repository;
 using Myproject.Models.Repository;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
 
 namespace Myproject.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : PPController
     {
-
         private readonly ConString _conString;
         private readonly IConfiguration _configuration;
-        // private readonly UserManager<ApplicationUser> _userManager;
-        /// private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthController(ConString conection, IConfiguration configuration/*, UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager*/)
+        public AuthController(ConString conection, IConfiguration configuration)
         {
             _conString = conection;
             _configuration = configuration;
-            // _userManager = userManager;
-            // _roleManager = roleManager;
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
@@ -49,18 +41,9 @@ namespace Myproject.Controllers
             return token;
         }
 
-        private static string GenerateRefreshToken()
-        {
-            var randomNumber = new byte[64];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-
         [Route("login")]
         [HttpPost]
         [AllowAnonymous]
-
         public IActionResult Login(Users user)
         {
             var result = new Result<LoginModel>() { ResponseCode = ResponseCode.SUCCES, ReturnObject = new LoginModel() };
@@ -70,18 +53,19 @@ namespace Myproject.Controllers
                 if (!validateUser.IsOk)
                     throw new Error(validateUser.ResponseCode, new DictionaryRepository(_conString).GetDictionary(new DictionaryModel() { Code = validateUser.ResponseCode.ToString() }).ReturnObject.Description);
 
+                if (string.IsNullOrEmpty(validateUser.ReturnObject.SecurityStamp))
+                    new UsersService(_conString).UpdateSecurityStamp(Guid.NewGuid().ToString(), user.Id);
+
                 var authClaims = new List<Claim>
                  {
-                     new Claim("UserId", validateUser.ReturnObject.Id.ToString()),
-                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                     new Claim(PPClaimTypes.UserId, validateUser.ReturnObject.Id.ToString()),
+                     new Claim(PPClaimTypes.SecurityStamp, validateUser.ReturnObject.SecurityStamp),
                  };
 
                 var token = GetToken(authClaims);
                 result.ReturnObject.Token = new JwtSecurityTokenHandler().WriteToken(token);
                 result.ReturnObject.ExpireTimeToken = token.ValidTo;
 
-                validateUser.ReturnObject.RefreshToken = GenerateRefreshToken();
-                validateUser.ReturnObject.RefreshTokenExpire = DateTime.UtcNow.AddHours(2);
                 _conString.SaveChanges();
             }
             catch (Error error)
@@ -100,20 +84,9 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
                 result.ResultMessage = ex.Message;
-
-                var _ = new LogRepository(_conString).SaveLog(new Models.EntityClasses.Log()
-                {
-                    ApiName = nameof(Login),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(user).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
 
             return Ok(result.ReturnObject);
         }
-
-
     }
-
-
 }
