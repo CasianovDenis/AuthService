@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vBb7W8Cr/Sc=",
+  "dgSpecHash": "8fKQlev+h1s=",
   "success": true,
-  "projectFilePath": "D:\\My Document\\LiceuAPI-master\\Myproject.csproj",
+  "projectFilePath": "E:\\Project\\DockerApp\\Myproject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\S.Holmes\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\S.Holmes\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.15\\microsoft.aspnetcore.authentication.jwtbearer.6.0.15.nupkg.sha512",

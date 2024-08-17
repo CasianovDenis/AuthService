@@ -7,16 +7,11 @@ using Myproject.Base.Models;
 using Myproject.Repository;
 using Myproject.Model.Repository;
 using Myproject.Models.Repository;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using Npgsql.Replication;
-using Myproject.Base.Services.HttpTrace;
 
 namespace Myproject.Controllers
 {
     [Route("api/users")]
     [ApiController]
-
     public class UsersController : PPController
     {
         private readonly ConString _conString;
@@ -39,7 +34,6 @@ namespace Myproject.Controllers
                 var createUser = new UsersService(_conString).CreateAccount(user);
                 if (!createUser.IsOk)
                     throw new Error(createUser.ResponseCode, new DictionaryRepository(_conString).GetDictionary(new DictionaryModel() { Code = createUser.ResponseCode.ToString() }).ReturnObject.Description);
-
             }
             catch (Error error)
             {
@@ -57,13 +51,6 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
                 result.ResultMessage = ex.Message;
-
-                var _ = new LogRepository(_conString).SaveLog(new Models.EntityClasses.Log()
-                {
-                    ApiName = nameof(CreateAccount),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(user).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             return Ok(result);
         }
@@ -102,13 +89,6 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
                 result.ResultMessage = ex.Message;
-
-                var _ = new LogRepository(_conString).SaveLog(new Models.EntityClasses.Log()
-                {
-                    ApiName = nameof(CreateAccount),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(UserContextId).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             return Ok(result);
         }
@@ -131,13 +111,6 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = error.Code;
                 result.ResultMessage = error.Message;
-
-                var _ = new LogService(_conString).SaveLog(new LogModel()
-                {
-                    ApiName = nameof(CreateAccount),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(user).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             catch (Exception ex)
             {
@@ -150,6 +123,37 @@ namespace Myproject.Controllers
                     Request = Newtonsoft.Json.JsonConvert.SerializeObject(user).ToString(),
                     Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
                 });
+            }
+            return Ok(result);
+        }
+
+        [Route("modify_password")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPut]
+        public IActionResult ModifyPassword(Users user)
+        {
+            var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
+            try
+            {
+                user.Id = UserContextId;
+
+                var modifyAction = new UsersService(_conString).ModifyPassword(user);
+                if (!modifyAction.IsOk)
+                    throw new Error(modifyAction.ResponseCode, new DictionaryRepository(_conString).GetDictionary(new DictionaryModel() { Code = modifyAction.ResponseCode.ToString() }).ReturnObject.Description);
+
+                var updateStamp = new UsersService(_conString).UpdateSecurityStamp(Guid.NewGuid().ToString(), user.Id);
+                if (!updateStamp.IsOk)
+                    throw new Error(updateStamp.ResponseCode, new DictionaryRepository(_conString).GetDictionary(new DictionaryModel() { Code = updateStamp.ResponseCode.ToString() }).ReturnObject.Description);
+            }
+            catch (Error error)
+            {
+                result.ResponseCode = error.Code;
+                result.ResultMessage = error.Message;
+            }
+            catch (Exception ex)
+            {
+                result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
+                result.ResultMessage = ex.Message;
             }
             return Ok(result);
         }
@@ -170,25 +174,11 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = error.Code;
                 result.ResultMessage = error.Message;
-
-                var _ = new LogService(_conString).SaveLog(new LogModel()
-                {
-                    ApiName = nameof(CreateAccount),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(UserContextId).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             catch (Exception ex)
             {
                 result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
                 result.ResultMessage = ex.Message;
-
-                var _ = new LogRepository(_conString).SaveLog(new Models.EntityClasses.Log()
-                {
-                    ApiName = nameof(CreateAccount),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(UserContextId).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             return Ok(result);
         }

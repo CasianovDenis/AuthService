@@ -22,9 +22,10 @@ namespace Myproject.Models
         //[Required]
         public string Password { get; set; }
         public string Email { get; set; }
-        public int Status { get; set; }
-        public string? RefreshToken { get; set; }
-        public DateTime? RefreshTokenExpire { get; set; }
+        public UserStatus Status { get; set; }
+        public string? SecurityStamp { get; set; }
+        // public string? RefreshToken { get; set; }
+        //public DateTime? RefreshTokenExpire { get; set; }
         //[ForeignKey("Role_id")]
         //public Roles roles { get; set; }
     }
