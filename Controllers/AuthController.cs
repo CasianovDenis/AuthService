@@ -10,7 +10,6 @@ using Myproject.Base.Models;
 using Myproject.Services;
 using Myproject.Repository;
 using Myproject.Model.Repository;
-using Myproject.Models.Repository;
 
 namespace Myproject.Controllers
 {
@@ -72,13 +71,6 @@ namespace Myproject.Controllers
             {
                 result.ResponseCode = error.Code;
                 result.ResultMessage = error.Message;
-
-                var _ = new LogService(_conString).SaveLog(new LogModel()
-                {
-                    ApiName = nameof(Login),
-                    Request = Newtonsoft.Json.JsonConvert.SerializeObject(user).ToString(),
-                    Response = Newtonsoft.Json.JsonConvert.SerializeObject(result).ToString()
-                });
             }
             catch (Exception ex)
             {
