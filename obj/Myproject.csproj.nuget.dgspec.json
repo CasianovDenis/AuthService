@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Project\\DockerApp\\Myproject.csproj": {}
+    "E:\\Project\\MicroserviceApp\\AuthService\\Myproject.csproj": {}
   },
   "projects": {
-    "E:\\Project\\DockerApp\\Myproject.csproj": {
+    "E:\\Project\\MicroserviceApp\\AuthService\\Myproject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Project\\DockerApp\\Myproject.csproj",
+        "projectUniqueName": "E:\\Project\\MicroserviceApp\\AuthService\\Myproject.csproj",
         "projectName": "Myproject",
-        "projectPath": "E:\\Project\\DockerApp\\Myproject.csproj",
+        "projectPath": "E:\\Project\\MicroserviceApp\\AuthService\\Myproject.csproj",
         "packagesPath": "C:\\Users\\S.Holmes\\.nuget\\packages\\",
-        "outputPath": "E:\\Project\\DockerApp\\obj\\",
+        "outputPath": "E:\\Project\\MicroserviceApp\\AuthService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\S.Holmes\\AppData\\Roaming\\NuGet\\NuGet.Config"

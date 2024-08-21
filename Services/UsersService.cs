@@ -37,34 +37,6 @@ namespace Myproject.Services
             }
         }
 
-        public ResultBase CreateAccount(Users user)
-        {
-            var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
-
-            try
-            {
-                user.Password = sha256(user.Password);
-
-                var create = new UsersRepository(_dbContext).CreateAccount(user);
-                if (!create.IsOk)
-                    throw new Error(create.ResponseCode, new DictionaryRepository(_dbContext).GetDictionary(new DictionaryModel() { Code = create.ResponseCode.ToString() }).ReturnObject.Description);
-
-                result = create;
-            }
-            catch (Error error)
-            {
-                result.ResponseCode = error.Code;
-                result.ResultMessage = error.Message;
-            }
-            catch (Exception ex)
-            {
-                result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
-                result.ResultMessage = ex.Message;
-            }
-
-            return result;
-        }
-
         public Result<Users> ValidateUser(Users user)
         {
             var result = new Result<Users>() { ResponseCode = ResponseCode.SUCCES };
@@ -119,58 +91,6 @@ namespace Myproject.Services
             return result;
         }
 
-        public ResultBase ModifyProfileInfo(Users user)
-        {
-            var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
-
-            try
-            {
-                var modifyProfile = new UsersRepository(_dbContext).ModifyProfileInfo(user);
-                if (!modifyProfile.IsOk)
-                    throw new Error(modifyProfile.ResponseCode, new DictionaryRepository(_dbContext).GetDictionary(new DictionaryModel() { Code = modifyProfile.ResponseCode.ToString() }).ReturnObject.Description);
-
-                result = modifyProfile;
-            }
-            catch (Error error)
-            {
-                result.ResponseCode = error.Code;
-                result.ResultMessage = error.Message;
-            }
-            catch (Exception ex)
-            {
-                result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
-                result.ResultMessage = ex.Message;
-            }
-
-            return result;
-        }
-
-        public ResultBase CloseAccountById(int userId)
-        {
-            var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
-
-            try
-            {
-                var closeAccount = new UsersRepository(_dbContext).CloseAccountById(userId);
-                if (!closeAccount.IsOk)
-                    throw new Error(closeAccount.ResponseCode, new DictionaryRepository(_dbContext).GetDictionary(new DictionaryModel() { Code = closeAccount.ResponseCode.ToString() }).ReturnObject.Description);
-
-                result = closeAccount;
-            }
-            catch (Error error)
-            {
-                result.ResponseCode = error.Code;
-                result.ResultMessage = error.Message;
-            }
-            catch (Exception ex)
-            {
-                result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
-                result.ResultMessage = ex.Message;
-            }
-
-            return result;
-        }
-
         public ResultBase UpdateSecurityStamp(string stamp, int userId)
         {
             var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
@@ -182,35 +102,6 @@ namespace Myproject.Services
                     throw new Error(closeAccount.ResponseCode, new DictionaryRepository(_dbContext).GetDictionary(new DictionaryModel() { Code = closeAccount.ResponseCode.ToString() }).ReturnObject.Description);
 
                 result = closeAccount;
-            }
-            catch (Error error)
-            {
-                result.ResponseCode = error.Code;
-                result.ResultMessage = error.Message;
-            }
-            catch (Exception ex)
-            {
-                result.ResponseCode = ResponseCode.TECHNICAL_EXCEPTION;
-                result.ResultMessage = ex.Message;
-            }
-
-            return result;
-        }
-
-        public ResultBase ModifyPassword(Users user)
-        {
-            var result = new ResultBase() { ResponseCode = ResponseCode.SUCCES };
-
-            try
-            {
-                if (user.Password != null)
-                    user.Password = sha256(user.Password);
-
-                var modifyProfile = new UsersRepository(_dbContext).ModifyPassword(user);
-                if (!modifyProfile.IsOk)
-                    throw new Error(modifyProfile.ResponseCode, new DictionaryRepository(_dbContext).GetDictionary(new DictionaryModel() { Code = modifyProfile.ResponseCode.ToString() }).ReturnObject.Description);
-
-                result = modifyProfile;
             }
             catch (Error error)
             {

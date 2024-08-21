@@ -5,3 +5,6 @@
 
 # User-specific files
 appsettings.json
+bin/
+obj/
+Properties/
